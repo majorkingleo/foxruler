@@ -1,0 +1,473 @@
+#include "fx.h"
+#include <FXPNGIcon.h>
+
+const unsigned char ruler[]={
+  0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,0x00,0x00,0x0d,0x49,0x48,0x44,0x52,
+  0x00,0x00,0x00,0x40,0x00,0x00,0x00,0x11,0x08,0x02,0x00,0x00,0x00,0xe2,0xd9,0x3d,
+  0xdb,0x00,0x00,0x00,0x09,0x70,0x48,0x59,0x73,0x00,0x00,0x0c,0x75,0x00,0x00,0x0c,
+  0x75,0x01,0x2d,0x78,0x94,0x75,0x00,0x00,0x00,0x07,0x74,0x49,0x4d,0x45,0x07,0xd5,
+  0x0c,0x0b,0x16,0x07,0x01,0xbc,0x3b,0x34,0xaf,0x00,0x00,0x01,0xd6,0x49,0x44,0x41,
+  0x54,0x48,0xc7,0xed,0x94,0x31,0x4b,0x02,0x61,0x18,0xc7,0x7f,0x5a,0x54,0x4a,0xa0,
+  0x48,0x5b,0x25,0x91,0x22,0x34,0x48,0x63,0x34,0xf4,0x0d,0xb2,0xc5,0xa0,0xc1,0xa1,
+  0xd1,0xcf,0x50,0xe0,0xd2,0x41,0x1f,0xa0,0x41,0x22,0x87,0x23,0x1c,0x9a,0x2a,0x88,
+  0xd0,0x06,0xa1,0x06,0x17,0x1b,0x22,0x82,0x08,0x17,0xc1,0xc8,0x21,0xc2,0xba,0x1a,
+  0xbc,0x50,0xbc,0xb7,0xc1,0xe8,0xc5,0xb7,0x38,0x32,0x09,0x89,0x7c,0x39,0xb8,0xfb,
+  0x3d,0xfc,0xff,0x7f,0x78,0xee,0x9e,0xe7,0x58,0x5b,0x43,0x08,0x74,0x9d,0x62,0x11,
+  0x21,0x68,0x61,0xa9,0x44,0x2a,0x85,0x10,0x24,0x12,0x34,0x1a,0xb2,0x9e,0xcb,0x91,
+  0xcb,0x49,0x6c,0x34,0x48,0x24,0x10,0x82,0x54,0x8a,0x52,0x49,0xd6,0x8b,0x45,0x74,
+  0x5d,0xe2,0xc7,0xc3,0xc9,0x09,0x67,0x67,0x12,0x4d,0x93,0x8d,0x0d,0x84,0x20,0x99,
+  0xe4,0xf6,0x56,0xd6,0xaf,0xaf,0x49,0xa7,0xbf,0xb0,0x1f,0x1f,0x93,0xcf,0x4b,0x7c,
+  0x79,0x61,0x73,0x13,0x27,0x7f,0xfc,0xfc,0xf9,0x06,0x06,0x5b,0xb7,0x95,0x15,0x86,
+  0x86,0x64,0xd5,0xef,0x27,0x16,0x6b,0xd3,0xad,0xaf,0xdb,0x61,0x2c,0xd6,0x66,0x0f,
+  0x04,0x98,0x9c,0xec,0xc0,0xbe,0xba,0xca,0xf0,0xb0,0xc4,0x50,0x88,0xe9,0xe9,0x6f,
+  0xdb,0x3f,0xe6,0xac,0x75,0x3d,0x3d,0xa9,0x68,0x59,0x12,0x4d,0x13,0xd3,0x94,0x68,
+  0x59,0xaa,0xde,0x3e,0xad,0x56,0x53,0xed,0x86,0x61,0xa7,0x57,0xd2,0x6a,0x35,0x5e,
+  0x5f,0x25,0x36,0x9b,0x18,0x06,0x83,0xe1,0x70,0x5b,0x73,0x5e,0xaf,0x1d,0x8e,0x8c,
+  0xb4,0xa1,0xc3,0xa1,0x0a,0xec,0xd3,0x5c,0x2e,0xd5,0xee,0xf1,0xd8,0xe9,0x95,0x34,
+  0xc5,0xee,0x74,0xe2,0xf1,0xe0,0x10,0xa2,0xbf,0xc4,0x3d,0x3d,0x03,0xcd,0x26,0xe3,
+  0xe3,0x8c,0x8d,0x75,0x95,0x12,0x8f,0x73,0x7e,0x4e,0xa5,0xc2,0xd4,0x14,0xdb,0xdb,
+  0x9c,0x9e,0x12,0x0a,0x31,0x3a,0xda,0x71,0x8e,0x61,0x70,0x70,0xc0,0xf3,0x33,0x7e,
+  0x3f,0x37,0x37,0x6c,0x6d,0x51,0x2e,0x33,0x3b,0xcb,0xfe,0x3e,0x7b,0x7b,0xb8,0xdd,
+  0x4c,0x4c,0x7c,0xfa,0x02,0x9a,0xc6,0xee,0x6e,0xb7,0xaf,0xc1,0xb2,0x88,0x44,0x88,
+  0x46,0xb9,0xbc,0x64,0x66,0x86,0x68,0x94,0x6c,0xf6,0x87,0x39,0xd5,0x2a,0xd5,0x2a,
+  0x40,0x3a,0x8d,0xa6,0x71,0x77,0x47,0xbd,0xce,0xc5,0x05,0x9a,0xc6,0xd1,0xd1,0xaf,
+  0x8d,0xd0,0xf2,0x32,0xf7,0xf7,0xe8,0x7a,0xb7,0x39,0x3e,0x1f,0x73,0x73,0xbd,0xd8,
+  0x81,0xc7,0x47,0x22,0x11,0x2a,0x95,0x1e,0xed,0xc0,0xd2,0xd2,0x17,0xb3,0xd5,0xd1,
+  0x29,0x14,0x38,0x3c,0x64,0x61,0x81,0x70,0x98,0x4c,0x86,0xab,0x2b,0x16,0x17,0xf1,
+  0xf9,0x7e,0x12,0xf5,0xf0,0x40,0xbd,0x4e,0x20,0x80,0xdb,0xcd,0xce,0x0e,0x5e,0x2f,
+  0xf3,0xf3,0x94,0xcb,0xef,0xf9,0xc1,0xa0,0xaa,0xef,0xff,0x46,0xfb,0x0d,0xfc,0xf7,
+  0x06,0xde,0x00,0x2e,0x81,0x3d,0xd6,0xa6,0x5a,0xbd,0x5e,0x00,0x00,0x00,0x00,0x49,
+  0x45,0x4e,0x44,0xae,0x42,0x60,0x82
+  };
+
+
+class Main : public FXMainWindow
+{
+  FXDECLARE( Main );
+
+public:
+  enum 
+	{
+	  ID_ORIENTATION = FXMainWindow::ID_LAST,	  
+	  ID_MAINWINDOW,
+	  ID_ABOUT,
+	  ID_LAST
+	};
+
+private:
+  FXFont *font;
+  FXFont *font2;
+  FXIcon *iruler;
+
+  enum ORIENTATION
+	{
+	  VERTICAL,
+	  HORIZONTAL
+	};
+
+  ORIENTATION orientation;
+  bool mouse_down;
+  int last_x;
+  int last_y;
+  bool dirty;
+  int last_h_height;
+
+private:
+  Main () {}
+
+public:
+  Main( FXApp *app )
+	: FXMainWindow( app, "FoxRuler", NULL, NULL, 
+					DECOR_TITLE | DECOR_CLOSE | DECOR_RESIZE | DECOR_MINIMIZE, 
+					0, 0, 500, 50 )
+  {
+	orientation = HORIZONTAL;
+	mouse_down = false;
+	last_x = -1;
+	last_y = -1;
+	dirty = false;
+	last_h_height = height;
+
+	font = new FXFont( app, "helvetica", 10 );
+	font2 = new FXFont( app, "helvetica", 8,  FXFont::Bold );
+
+	iruler = new FXPNGIcon( app, ruler );
+
+	setIcon( iruler );
+
+	setTarget(this);
+	setSelector(ID_MAINWINDOW);
+  }
+
+  ~Main()
+  {
+	delete font;
+	delete font2;
+	delete iruler;
+  }
+ 
+  void readRegistry()
+  {
+	// Position
+	FXint xx=getApp()->reg().readIntEntry("SETTINGS","x",50);
+	FXint yy=getApp()->reg().readIntEntry("SETTINGS","y",50);
+	FXint ww=getApp()->reg().readIntEntry("SETTINGS","w",500);
+	FXint hh=getApp()->reg().readIntEntry("SETTINGS","h",50);
+	FXint oo=getApp()->reg().readIntEntry("SETTINGS","orientation",HORIZONTAL);
+	FXint h_height=getApp()->reg().readIntEntry("SETTINGS","last_h_height",50);
+
+	if( xx < 0 )
+	  xx = 50;
+	if( yy < 0 )
+	  yy = 50;
+
+	if( xx > getApp()->getRootWindow()->getWidth() )
+	  xx =  0;
+	
+	if( yy > getApp()->getRootWindow()->getHeight() )
+	  yy =  0;
+
+	if( xx + ww > getApp()->getRootWindow()->getWidth() )
+	  ww = getApp()->getRootWindow()->getWidth() - xx;
+
+	if( yy + hh > getApp()->getRootWindow()->getHeight() )
+	  hh = getApp()->getRootWindow()->getHeight() - yy;
+
+	if( ww <= 50 )
+	  ww = 500;
+	
+	if( hh <= 50 )
+	  hh = 50;
+
+	if( h_height < 50 )
+	  h_height = 50;
+   
+	if( h_height + yy > getApp()->getRootWindow()->getHeight() )
+	  h_height = 50;
+	
+	last_h_height = h_height;
+
+	setX(xx);
+	setY(yy);
+	setWidth(ww);
+	setHeight(hh);
+
+	switch( oo )
+	  {
+	  case HORIZONTAL:
+	  case VERTICAL:
+		orientation = static_cast<ORIENTATION>(oo);
+		break;
+	  }
+
+  }
+
+  void writeRegistry()
+  {
+	// Position
+	getApp()->reg().writeIntEntry("SETTINGS","x",getX());
+	getApp()->reg().writeIntEntry("SETTINGS","y",getY());
+	getApp()->reg().writeIntEntry("SETTINGS","w",getWidth());
+	getApp()->reg().writeIntEntry("SETTINGS","h",getHeight());   
+	getApp()->reg().writeIntEntry("SETTINGS", "orientation", orientation );
+	getApp()->reg().writeIntEntry("SETTINGS", "last_h_height", last_h_height );
+  }
+
+
+  FXbool close( FXbool notify)
+  {
+	writeRegistry();
+	return FXMainWindow::close( notify );
+  }
+
+  void create()
+  {
+	readRegistry();
+
+	FXMainWindow::create();
+	font->create();	
+	font2->create();
+	iruler->create();
+
+	show();
+
+	// for getting mouse messages
+	enable();
+  }
+
+  
+
+  long onPaint( FXObject *obj, FXSelector sel, void *ptr )
+  {
+	FXDCWindow dc( this );
+
+	dc.setForeground( FXRGB( 255, 255, 0 ) );
+	dc.fillRectangle( 0, 0, width, height );
+
+	dc.setForeground( FXRGB( 0, 0, 0 ) );
+
+	int w = width;
+
+	if( orientation == VERTICAL )
+	  w = height;
+
+	for( int i = 0; i < w; i += 5 )
+	  {
+		int h;
+
+		if( i % 50 == 0 )	   
+		  h = 10;
+		else if( i % 10 == 0 )	   
+		  h = 7;
+		else
+		  h = 5;
+
+		if( orientation == VERTICAL )
+		  {
+			dc.drawLine( 0, i, h, i );
+			dc.drawLine( width - h, i, width , i );
+		  } else {
+			dc.drawLine( i, 0, i, h );
+			dc.drawLine( i, height - h, i, height );
+		  }
+
+		if( i % 50 == 0 )	   
+		  {
+			FXString s;
+			s.format( "%d", i );
+			dc.setFont( font );
+
+			if( orientation == VERTICAL )
+			  {
+				dc.drawText( h + 3,
+							 i + font->getFontDescent() + 1,
+							 s.text(),
+							 s.length() );				
+
+				if( width > 50 )
+				  {
+					dc.drawText( width - h - font->getTextWidth( s ) - 2,
+								 i + font->getFontDescent() + 1,
+								 s.text(),
+								 s.length() );				
+				  }
+
+			  } else {
+				dc.drawText( i - font->getTextWidth( s ) / 2 , 
+							 h + 1 + font->getTextHeight( s ), 
+							 s.text(), 
+							 s.length() );
+
+				if( height > 50 )
+				  {
+					dc.drawText( i - font->getTextWidth( s ) / 2 , 
+								 height - h - font->getFontDescent(),
+								 s.text(),
+								 s.length() );
+
+				  }
+			  }
+		  }
+	  }
+	
+	return 1;
+  }
+
+  long onOrientation( FXObject *obj, FXSelector sel, void * ptr )
+  {
+	int w = width, h = height;
+
+	if( orientation == HORIZONTAL )
+	  {
+		orientation = VERTICAL;
+		last_h_height = height;
+	 } else {
+		orientation = HORIZONTAL;	
+		w = last_h_height;
+	  }
+
+	resize( h, w );
+
+	return 1;
+  }
+
+  long onMouseDown( FXObject *obj, FXSelector sel, void* ptr )
+  {
+	mouse_down = true;
+	last_x = -1;
+	last_y = -1;
+	return 1;
+  }
+
+  long onMouseUp( FXObject *obj, FXSelector sel, void* ptr )
+  {
+	mouse_down = false;
+
+	if( dirty )
+	  {
+
+		FXDCWindow dc(this);
+		FXEvent *ev=(FXEvent*)ptr;
+		dc.setFunction( BLT_NOT_DST );	
+		
+		switch( orientation )
+		  {
+		  case HORIZONTAL:
+			drawText( -1 );
+			dc.setFunction( BLT_NOT_DST );	
+			dc.drawLine( ev->win_x, 0, ev->win_x, height );
+			break;
+			
+		  case VERTICAL:	   
+			drawText( -1 );
+			dc.setFunction( BLT_NOT_DST );	
+			dc.drawLine( 0, ev->win_y, width, ev->win_y );		
+			break;
+		  };
+	  }
+		
+	last_x = -1;
+	last_y = -1;
+	dirty = false;
+
+	return 1;
+  }
+
+  void drawText( int number )
+  {
+	FXString s;
+	FXDCWindow dc( this );
+
+	s.format( "% 5d", number );
+	dc.setFunction();
+	dc.setFont( font2 );
+	dc.setForeground( FXRGB( 255, 255, 0 ) );
+
+	int x, y, w, h;
+
+	switch( orientation )
+	  {
+	  case HORIZONTAL:
+		x = 40 - font->getTextWidth( s );
+		y = height / 2 - font->getTextHeight( s ) / 2;
+		break;
+
+	  case VERTICAL:
+		x = width / 2 - font->getTextWidth( s ) /2;
+		y = 40 - font->getTextHeight( s );
+		break;
+	  }
+
+	w = font->getTextWidth( s );
+	h = font->getTextHeight( s );
+
+	dc.fillRectangle( x, y, w, h );
+
+	if( number < 0 )
+	  return;
+
+	dc.setForeground( FXRGB( 0, 0, 0 ) );
+
+	dc.drawText( x, 
+				 y + font->getFontAscent(),
+				 s.text(),
+				 s.length() );	
+  }
+
+  long onMouseMove( FXObject *obj, FXSelector sel, void* ptr )
+  {
+	if( !mouse_down )
+	  return 0;
+
+	FXEvent *ev=(FXEvent*)ptr;
+	FXDCWindow dc(this);
+
+	dc.setFunction( BLT_NOT_DST );
+	dc.setFont( font );
+
+	dirty = true;
+
+	switch( orientation )
+	  {
+	  case HORIZONTAL:
+		{
+		  dc.drawLine( last_x, 0, last_x, height );
+		  dc.drawLine( ev->win_x, 0, ev->win_x, height );
+		  drawText( ev->win_x );
+		}
+		break;
+
+	  case VERTICAL:	   
+		{
+		  dc.drawLine( 0, last_y, width, last_y );		
+		  dc.drawLine( 0, ev->win_y, width, ev->win_y );		
+		  drawText( ev->win_y );
+		}
+		break;
+	  };
+
+	last_x = ev->win_x;
+	last_y = ev->win_y;
+
+	return 1;
+  }
+
+  long onContextMenu( FXObject *obj, FXSelector sel, void * ptr )
+  {
+	FXEvent *event=(FXEvent*)ptr;
+	if(event->moved) 
+	  return 1;
+
+	FXMenuPane pane( this );
+
+	FXString s;
+
+	if( orientation == HORIZONTAL )
+	  s = "Orientation Vertical";
+	else
+	  s = "Orientation Horizontal";
+
+	new FXMenuCommand( &pane, s, NULL, this, ID_ORIENTATION );
+	new FXMenuCommand( &pane, "About", NULL, this, ID_ABOUT );
+
+	pane.create();
+	pane.popup(NULL,event->root_x,event->root_y);
+	getApp()->runModalWhileShown(&pane);
+	return 1;
+  }
+
+  long onAbout( FXObject *obj, FXSelector sel, void *ptr )
+  {
+	FXMessageBox::information(this,MBOX_OK,"About FOXRuler","FOXRuler\n(C) 2005 by Martin Oberzalek <kingleo@gmx.at>\nUnder the terms of the GPL.");
+
+	return 1;
+  }
+
+};
+
+FXDEFMAP( Main ) MainMap[] = {
+  FXMAPFUNC( SEL_PAINT, 0, Main::onPaint ),
+  FXMAPFUNC( SEL_COMMAND, Main::ID_ORIENTATION, Main::onOrientation ),
+  FXMAPFUNC( SEL_COMMAND, Main::ID_ABOUT, Main::onAbout ),
+  FXMAPFUNC( SEL_MOTION, Main::ID_MAINWINDOW, Main::onMouseMove ),
+  FXMAPFUNC( SEL_LEFTBUTTONPRESS, Main::ID_MAINWINDOW, Main::onMouseDown ),
+  FXMAPFUNC( SEL_LEFTBUTTONRELEASE, Main::ID_MAINWINDOW, Main::onMouseUp ),
+  FXMAPFUNC( SEL_RIGHTBUTTONRELEASE, Main::ID_MAINWINDOW, Main::onContextMenu )
+};
+
+FXIMPLEMENT( Main, FXMainWindow, MainMap, ARRAYNUMBER( MainMap ) );
+
+
+int main( int argc, char **argv )
+{
+  FXApp app( "FoxRuler", "FoxRuler" );
+
+  app.init( argc, argv );
+
+  
+  new Main( &app );
+
+  app.create();
+
+  return app.run();
+}

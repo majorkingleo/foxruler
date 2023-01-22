@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ $# -gt 0 ] ; then
+  if [ $1 = "-g" ] ; then
+    export NOOPT=1 
+	export CXXFLAGS="$CXXFLAGS -g"
+  fi
+fi
+
+export CXXFLAGS="$CXXFLAGS  `fox-config --cflags`"
+export LDFLAGS="$LDFLAGS `fox-config --libs`"
+
+./genmak . 

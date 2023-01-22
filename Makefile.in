@@ -1,0 +1,20 @@
+EXE=foxruler
+PACKAGE=foxruler
+DIST=$(PACKAGE)-$(VERSION)
+
+all: $(EXE)
+
+$(EXE): $(OFILES)
+	$(CXX) -o $(EXE) $(CXXFLAGS) $(OFILES) $(LDFLAGS) 
+
+dist: clean 
+	rm -rf $(DIST)
+	rm -f $(DIST).tar.gz
+	mkdir $(DIST)
+	cp $(CFILES) COPYING genmak configure Makefile.in $(DIST)
+	find $(DIST) -name "CVS" | xargs rm -rf
+	chmod -R u+w  $(DIST)
+	tar cvf $(DIST).tar $(DIST)
+	gzip --best $(DIST).tar
+	rm -rf $(DIST)
+
