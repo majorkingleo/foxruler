@@ -372,7 +372,11 @@ public:
 
 	if( dragging )
 	  {
+#if !defined(FOX_WAYLAND)
+		// On Wayland the compositor moves the window; tracking it here would
+		// corrupt the coordinates used by the next popup.
 		move( ev->root_x - drag_x, ev->root_y - drag_y );
+#endif
 		return 1;
 	  }
 
