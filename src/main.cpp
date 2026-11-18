@@ -449,7 +449,15 @@ public:
 
   long onQuit( FXObject*, FXSelector, void* )
   {
-	close( true );
+	// Quit after the menu is gone, so its widgets are not deleted mid-dispatch
+	getApp()->addChore( this, FXSEL( SEL_CHORE, ID_QUIT ) );
+	return 1;
+  }
+
+  long onQuitNow( FXObject*, FXSelector, void* )
+  {
+	writeRegistry();
+	getApp()->stop( 0 );
 	return 1;
   }
 
@@ -460,6 +468,7 @@ FXDEFMAP( Main ) MainMap[] = {
   FXMAPFUNC( SEL_COMMAND, Main::ID_ORIENTATION, Main::onOrientation ),
   FXMAPFUNC( SEL_COMMAND, Main::ID_ABOUT, Main::onAbout ),
   FXMAPFUNC( SEL_COMMAND, Main::ID_QUIT, Main::onQuit ),
+  FXMAPFUNC( SEL_CHORE, Main::ID_QUIT, Main::onQuitNow ),
   FXMAPFUNC( SEL_MOTION, Main::ID_MAINWINDOW, Main::onMouseMove ),
   FXMAPFUNC( SEL_MIDDLEBUTTONPRESS, Main::ID_MAINWINDOW, Main::onMiddleButtonPress ),
   FXMAPFUNC( SEL_MIDDLEBUTTONRELEASE, Main::ID_MAINWINDOW, Main::onMiddleButtonRelease ),
