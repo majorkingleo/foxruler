@@ -348,6 +348,7 @@ public:
 	drag_x = ev->root_x - getX();
 	drag_y = ev->root_y - getY();
 	raise();
+	startDrag();
 	grab();
 	return 1;
   }

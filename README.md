@@ -40,6 +40,11 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --parallel
 ```
 
+## Usage
+
+Drag the ruler with the middle mouse button. Right-click it to change the
+orientation or to quit.
+
 ## Project layout
 
 ```text
