@@ -1,0 +1,28 @@
+# CMake build directory
+build/
+build-*/
+
+# Editor and tooling files
+compile_commands.json
+.cache/
+.vscode/
+.idea/
+*.swp
+*~
+
+# Object files and binaries
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+foxruler
+
+# Autotools leftovers, kept out of the tree if generated locally
+Makefile
+.dependencies
+config.log
+config.status
