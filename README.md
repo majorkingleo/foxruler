@@ -45,8 +45,6 @@ cmake --build build --parallel
 ```text
 cmake/FindFOX.cmake   CMake package lookup for FOX 2.x
 src/main.cpp          application and main window
-src/rulericon.cpp     embedded PNG application icon
-src/rulericon.h
 CMakeLists.txt
 build.sh
 ```

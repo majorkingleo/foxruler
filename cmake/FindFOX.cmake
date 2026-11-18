@@ -48,6 +48,7 @@ if(PkgConfig_FOUND)
       NO_DEFAULT_PATH)
     list(APPEND _fox_library_dirs ${PC_FOX_LIBDIR} ${PC_FOX_LIBRARY_DIRS})
     set(_fox_pkg_config_libraries ${PC_FOX_LIBRARIES})
+    pkg_get_variable(_fox_platform_libs fox-2.0 PLATFORM_LIBS)
   endif()
 endif()
 
@@ -74,6 +75,7 @@ if(FOX_CONFIG AND NOT _fox_pkg_config_libraries AND NOT _fox_hints)
      AND _fox_config_libs_result EQUAL 0)
     separate_arguments(_fox_config_cflags UNIX_COMMAND "${_fox_config_cflags}")
     separate_arguments(_fox_config_libs UNIX_COMMAND "${_fox_config_libs}")
+    set(_fox_platform_libs "${_fox_config_libs}")
     foreach(_flag IN LISTS _fox_config_cflags)
       if(_flag MATCHES "^-I(.*)")
         set(FOX_INCLUDE_DIR "${CMAKE_MATCH_1}" CACHE PATH "FOX include directory")
@@ -140,6 +142,14 @@ find_package_handle_standard_args(FOX
   REASON_FAILURE_MESSAGE
     "Install the FOX Toolkit 2.x or set FOX_ROOT to its installation prefix.")
 
+# Tell the compiler which backend the library was built for, so the public
+# headers select matching platform declarations.
+if(_fox_platform_libs MATCHES "wayland-client")
+  set(FOX_PLATFORM "wayland")
+elseif(_fox_platform_libs MATCHES "-lX11")
+  set(FOX_PLATFORM "x11")
+endif()
+
 if(FOX_FOUND AND NOT TARGET FOX::FOX)
   add_library(FOX::FOX INTERFACE IMPORTED)
   set_target_properties(FOX::FOX PROPERTIES
@@ -149,6 +159,13 @@ if(FOX_FOUND AND NOT TARGET FOX::FOX)
     list(REMOVE_DUPLICATES _fox_pkg_config_libraries)
     set_property(TARGET FOX::FOX APPEND PROPERTY
       INTERFACE_LINK_LIBRARIES ${_fox_pkg_config_libraries})
+  endif()
+  if(FOX_PLATFORM STREQUAL "wayland")
+    set_property(TARGET FOX::FOX APPEND PROPERTY
+      INTERFACE_COMPILE_DEFINITIONS FOX_WAYLAND)
+  elseif(FOX_PLATFORM STREQUAL "x11")
+    set_property(TARGET FOX::FOX APPEND PROPERTY
+      INTERFACE_COMPILE_DEFINITIONS FOX_X11)
   endif()
 endif()
 

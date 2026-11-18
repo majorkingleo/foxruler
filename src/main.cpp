@@ -1,7 +1,4 @@
 #include "fx.h"
-#include <FXPNGIcon.h>
-
-#include "rulericon.h"
 
 
 class Main : public FXMainWindow
@@ -14,13 +11,13 @@ public:
 	  ID_ORIENTATION = FXMainWindow::ID_LAST,	  
 	  ID_MAINWINDOW,
 	  ID_ABOUT,
+	  ID_QUIT,
 	  ID_LAST
 	};
 
 private:
   FXFont *font;
   FXFont *font2;
-  FXIcon *iruler;
 
   enum ORIENTATION
 	{
@@ -34,14 +31,16 @@ private:
   int last_y;
   bool dirty;
   int last_h_height;
+  bool dragging;
+  int drag_x;
+  int drag_y;
 
 private:
   Main()=default;
 
 public:
   Main( FXApp *app )
-	: FXMainWindow( app, "FoxRuler", nullptr, nullptr, 
-					DECOR_TITLE | DECOR_CLOSE | DECOR_RESIZE | DECOR_MINIMIZE, 
+	: FXMainWindow( app, "FoxRuler", nullptr, nullptr, DECOR_NONE, 
 					0, 0, 500, 50 )
   {
 	orientation = HORIZONTAL;
@@ -50,13 +49,12 @@ public:
 	last_y = -1;
 	dirty = false;
 	last_h_height = height;
+	dragging = false;
+	drag_x = 0;
+	drag_y = 0;
 
 	font = new FXFont( app, "helvetica", 10 );
 	font2 = new FXFont( app, "helvetica", 8,  FXFont::Bold );
-
-	iruler = new FXPNGIcon( app, ruler );
-
-	setIcon( iruler );
 
 	setTarget(this);
 	setSelector(ID_MAINWINDOW);
@@ -66,7 +64,6 @@ public:
   {
 	delete font;
 	delete font2;
-	delete iruler;
   }
  
   void readRegistry()
@@ -137,6 +134,14 @@ public:
   }
 
 
+#if defined(FOX_X11)
+  // Bypass the window manager so the ruler stays free of decorations.
+  FXbool doesOverrideRedirect() const override
+  {
+	return true;
+  }
+#endif
+
   FXbool close( FXbool notify) override
   {
 	writeRegistry();
@@ -150,7 +155,6 @@ public:
 	FXMainWindow::create();
 	font->create();	
 	font2->create();
-	iruler->create();
 
 	show();
 
@@ -337,12 +341,43 @@ public:
 				 s.length() );	
   }
 
+  long onMiddleButtonPress( FXObject*, FXSelector, void* ptr )
+  {
+	FXEvent *ev=(FXEvent*)ptr;
+	dragging = true;
+	drag_x = ev->root_x - getX();
+	drag_y = ev->root_y - getY();
+	raise();
+	grab();
+	return 1;
+  }
+
+  long onMiddleButtonRelease( FXObject*, FXSelector, void* )
+  {
+	dragging = false;
+	ungrab();
+	return 1;
+  }
+
+  long onUngrabbed( FXObject*, FXSelector, void* )
+  {
+	dragging = false;
+	return 1;
+  }
+
   long onMouseMove( FXObject*, FXSelector, void* ptr )
   {
+	FXEvent *ev=(FXEvent*)ptr;
+
+	if( dragging )
+	  {
+		move( ev->root_x - drag_x, ev->root_y - drag_y );
+		return 1;
+	  }
+
 	if( !mouse_down )
 	  return 0;
 
-	FXEvent *ev=(FXEvent*)ptr;
 	FXDCWindow dc(this);
 
 	dc.setFunction( BLT_NOT_DST );
@@ -392,6 +427,7 @@ public:
 
 	new FXMenuCommand( &pane, s, nullptr, this, ID_ORIENTATION );
 	new FXMenuCommand( &pane, "About", nullptr, this, ID_ABOUT );
+	new FXMenuCommand( &pane, "Quit", nullptr, this, ID_QUIT );
 
 	pane.create();
 	pane.popup(nullptr,event->root_x,event->root_y);
@@ -406,13 +442,23 @@ public:
 	return 1;
   }
 
+  long onQuit( FXObject*, FXSelector, void* )
+  {
+	close( true );
+	return 1;
+  }
+
 };
 
 FXDEFMAP( Main ) MainMap[] = {
   FXMAPFUNC( SEL_PAINT, 0, Main::onPaint ),
   FXMAPFUNC( SEL_COMMAND, Main::ID_ORIENTATION, Main::onOrientation ),
   FXMAPFUNC( SEL_COMMAND, Main::ID_ABOUT, Main::onAbout ),
+  FXMAPFUNC( SEL_COMMAND, Main::ID_QUIT, Main::onQuit ),
   FXMAPFUNC( SEL_MOTION, Main::ID_MAINWINDOW, Main::onMouseMove ),
+  FXMAPFUNC( SEL_MIDDLEBUTTONPRESS, Main::ID_MAINWINDOW, Main::onMiddleButtonPress ),
+  FXMAPFUNC( SEL_MIDDLEBUTTONRELEASE, Main::ID_MAINWINDOW, Main::onMiddleButtonRelease ),
+  FXMAPFUNC( SEL_UNGRABBED, Main::ID_MAINWINDOW, Main::onUngrabbed ),
   FXMAPFUNC( SEL_LEFTBUTTONPRESS, Main::ID_MAINWINDOW, Main::onMouseDown ),
   FXMAPFUNC( SEL_LEFTBUTTONRELEASE, Main::ID_MAINWINDOW, Main::onMouseUp ),
   FXMAPFUNC( SEL_RIGHTBUTTONRELEASE, Main::ID_MAINWINDOW, Main::onContextMenu )

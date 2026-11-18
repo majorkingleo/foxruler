@@ -17,8 +17,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(FOX 2.0 REQUIRED)
 
 add_executable(foxruler
-  src/main.cpp
-  src/rulericon.cpp)
+  src/main.cpp)
 
 target_link_libraries(foxruler PRIVATE FOX::FOX)
 
